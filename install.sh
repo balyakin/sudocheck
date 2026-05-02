@@ -67,16 +67,22 @@ rm -rf "$TMP_DIR"
 mkdir -p "$TMP_DIR"
 cd "$TMP_DIR"
 
-curl -fsSLO "$archive_url"
-curl -fsSLO "$checksum_url"
-checksum_line="$(grep "[ *]$archive$" checksums.txt || true)"
+curl -fLsS -o "$archive" "$archive_url"
+curl -fLsS -o checksums.txt "$checksum_url"
+checksum_line="$(grep "$archive" checksums.txt || true)"
 if [ -z "$checksum_line" ]; then
   echo "checksums.txt does not contain checksum for $archive" >&2
   echo "checksums.txt contents:" >&2
   cat checksums.txt >&2
   exit 1
 fi
-printf '%s\n' "$checksum_line" | sha256sum -c -
+checksum="$(printf '%s\n' "$checksum_line" | sed -n 's/.*\([A-Fa-f0-9]\{64\}\).*/\1/p' | head -n 1)"
+if [ -z "$checksum" ]; then
+  echo "could not parse SHA256 checksum for $archive" >&2
+  echo "$checksum_line" >&2
+  exit 1
+fi
+printf '%s  %s\n' "$checksum" "$archive" | sha256sum -c -
 tar xzf "$archive"
 
 if [ -w "$INSTALL_DIR" ]; then
