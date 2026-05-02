@@ -1,0 +1,19 @@
+{
+  "expected_suid": [
+    "/usr/bin/chfn",
+    "/usr/bin/chsh",
+    "/usr/bin/gpasswd",
+    "/usr/bin/mount",
+    "/usr/bin/newgrp",
+    "/usr/bin/passwd",
+    "/usr/bin/su",
+    "/usr/bin/sudo",
+    "/usr/bin/umount",
+    "/usr/bin/ping",
+    "/bin/mount",
+    "/bin/ping",
+    "/bin/su",
+    "/bin/umount"
+  ]
+}
+

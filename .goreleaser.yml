@@ -1,0 +1,44 @@
+version: 2
+
+builds:
+  - main: .
+    binary: sudocheck
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+    goarch:
+      - amd64
+      - arm64
+      - arm
+    ldflags:
+      - -s -w -X main.version={{.Version}}
+
+archives:
+  - format: tar.gz
+    name_template: "{{ .ProjectName }}_{{ .Os }}_{{ .Arch }}"
+
+checksum:
+  name_template: checksums.txt
+
+signs:
+  - cmd: cosign
+    args:
+      - sign-blob
+      - --yes
+      - --output-signature=${signature}
+      - ${artifact}
+    artifacts: checksum
+
+changelog:
+  sort: asc
+
+nfpms:
+  - package_name: sudocheck
+    homepage: https://github.com/evgenybalyakin/sudocheck
+    maintainer: evgenybalyakin
+    description: Linux privilege escalation audit with GTFOBins mapping
+    license: MIT
+    formats:
+      - deb
+      - rpm

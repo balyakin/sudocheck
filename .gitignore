@@ -1,0 +1,6 @@
+sudocheck
+*.sarif
+*.baseline.json
+dist/
+.DS_Store
+

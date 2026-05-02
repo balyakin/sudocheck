@@ -1,0 +1,29 @@
+{
+  "bash": {
+    "sudo": "Remove unrestricted shell access from sudoers. If shell access is required, require a password and restrict the account.",
+    "suid": "Remove the SUID bit: chmod u-s <path>. A SUID shell is never safe."
+  },
+  "find": {
+    "sudo": "Remove find from sudoers or restrict it to exact safe arguments. Avoid unrestricted -exec.",
+    "suid": "Remove the SUID bit: chmod u-s <path>. SUID find allows command execution."
+  },
+  "python": {
+    "sudo": "Remove python from sudoers or replace it with a narrow purpose-built wrapper.",
+    "suid": "Remove the SUID bit: chmod u-s <path>. Python can execute arbitrary code.",
+    "capabilities": "Remove capabilities: setcap -r <path>. cap_setuid allows UID 0 escalation."
+  },
+  "systemctl": {
+    "sudo": "Avoid unrestricted systemctl in sudoers. Restrict to exact units and actions, or use a dedicated service management wrapper."
+  },
+  "tar": {
+    "sudo": "Remove unrestricted tar from sudoers or deny checkpoint actions through a controlled wrapper."
+  },
+  "tcpdump": {
+    "sudo": "Restrict tcpdump arguments and avoid the -z flag. Prefer a wrapper with fixed interface, output path and rotation settings."
+  },
+  "vim": {
+    "sudo": "Use sudoedit instead of sudo vim, or restrict editing to exact files through sudoedit.",
+    "suid": "Remove the SUID bit: chmod u-s <path>. SUID vim is not safe."
+  }
+}
+

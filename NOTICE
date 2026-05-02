@@ -1,0 +1,11 @@
+sudocheck is distributed under the MIT License.
+
+The bundled seed database is project-maintained data used for offline demos and basic matching. It is not a
+vendored copy of the GTFOBins repository.
+
+GTFOBins is available at:
+https://github.com/GTFOBins/GTFOBins.github.io
+
+If a user runs `sudocheck update`, downloaded external data remains under the license and terms of the upstream
+source from which it was fetched.
+

