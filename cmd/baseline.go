@@ -45,6 +45,10 @@ func newBaselineCommand(stdout io.Writer, stderr io.Writer, exitCode *int) *cobr
 }
 
 func runBaselineInitConfig(config baselineInitConfig, stdout io.Writer, stderr io.Writer) int {
+	if scanIsRunningAsRoot() {
+		return stopRootScan(stderr)
+	}
+
 	database, err := matcher.LoadDefaultDatabase()
 	if err != nil {
 		fmt.Fprintln(stderr, err)

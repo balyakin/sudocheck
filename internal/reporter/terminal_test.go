@@ -48,3 +48,34 @@ func TestRenderTerminalMatchesSpecFindingShape(t *testing.T) {
 		}
 	}
 }
+
+func TestRenderTerminalCriticalFindingHasNoLeadingPadding(t *testing.T) {
+	report := model.Report{
+		Version: "v0.1.0",
+		Summary: model.Summary{
+			Critical: 1,
+			Total:    1,
+		},
+		Findings: []model.Finding{
+			{
+				Severity:   model.SeverityCritical,
+				Source:     "sudo",
+				BinaryName: "all",
+				Detail:     "PASSWD, run as ALL : ALL",
+			},
+		},
+	}
+
+	output := RenderTerminal(report, Options{})
+
+	for _, line := range strings.Split(output, "\n") {
+		if strings.Contains(line, "CRITICAL —") {
+			if strings.HasPrefix(line, " ") {
+				t.Fatalf("expected critical finding line without leading padding, got %q", line)
+			}
+			return
+		}
+	}
+
+	t.Fatalf("expected critical finding line, got:\n%s", output)
+}

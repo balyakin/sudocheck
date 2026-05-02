@@ -1,6 +1,8 @@
 package cmd
 
 import (
+	"fmt"
+	"io"
 	"os"
 	"path/filepath"
 	"strings"
@@ -18,7 +20,13 @@ const (
 	exitHigh     = 2
 	exitRuntime  = 3
 	exitUsage    = 4
+
+	rootUserID       = 0
+	rootScanWarning  = "sudocheck should not be run as root."
+	rootScanGuidance = "Please run sudocheck as the unprivileged user you want to audit; no checks were performed."
 )
+
+var getEffectiveUserID = os.Geteuid
 
 type stringList []string
 
@@ -47,6 +55,16 @@ func exitForFindings(findings []model.Finding, failOn model.Severity) int {
 		return exitHigh
 	}
 	return exitHigh
+}
+
+func scanIsRunningAsRoot() bool {
+	return getEffectiveUserID() == rootUserID
+}
+
+func stopRootScan(stderr io.Writer) int {
+	fmt.Fprintln(stderr, rootScanWarning)
+	fmt.Fprintln(stderr, rootScanGuidance)
+	return exitUsage
 }
 
 func inferFormat(format string, jsonOutput bool, sarifOutput bool, reportPath string) string {

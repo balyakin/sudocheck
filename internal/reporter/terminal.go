@@ -14,8 +14,8 @@ var (
 	bannerStyle   = lipgloss.NewStyle().Bold(true).Foreground(lipgloss.Color("14"))
 	criticalStyle = lipgloss.NewStyle().
 			Bold(true).
-			Foreground(lipgloss.Color("15")).
-			Background(lipgloss.Color("9"))
+			Foreground(lipgloss.Color("9")).
+			Inline(true)
 	highStyle   = lipgloss.NewStyle().Foreground(lipgloss.Color("9"))
 	mediumStyle = lipgloss.NewStyle().Foreground(lipgloss.Color("11"))
 	lowStyle    = lipgloss.NewStyle().Foreground(lipgloss.Color("14"))
@@ -70,7 +70,9 @@ func renderFinding(finding model.Finding, options Options) string {
 	builder := strings.Builder{}
 	header := fmt.Sprintf("%s %s — %s %s (%s)", severityIcon(finding.Severity),
 		strings.ToUpper(string(finding.Severity)), finding.Source, finding.BinaryName, finding.Detail)
-	builder.WriteString(renderStyled(header+"\n", severityStyle(finding.Severity), options))
+	styledHeader := renderStyled(header, severityStyle(finding.Severity), options)
+	builder.WriteString(strings.TrimLeft(styledHeader, " \t"))
+	builder.WriteString("\n")
 	builder.WriteString("┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄\n")
 	if len(finding.Exploits) > 0 && !options.HideExploits {
 		builder.WriteString(fmt.Sprintf("Exploit:  %s\n", finding.Exploits[0].Command))
@@ -140,5 +142,5 @@ func renderStyled(value string, style lipgloss.Style, options Options) string {
 	if options.NoColor {
 		return value
 	}
-	return style.Render(value)
+	return strings.TrimRight(style.Render(value), " \t")
 }

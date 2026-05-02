@@ -74,6 +74,10 @@ func addScanFlags(command *cobra.Command, config *scanConfig) {
 }
 
 func runScanConfig(config scanConfig, stdout io.Writer, stderr io.Writer, version string) int {
+	if scanIsRunningAsRoot() {
+		return stopRootScan(stderr)
+	}
+
 	database, err := matcher.LoadDefaultDatabase()
 	if err != nil {
 		fmt.Fprintln(stderr, err)
