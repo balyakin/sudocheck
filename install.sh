@@ -7,7 +7,8 @@ TMP_DIR="${TMPDIR:-/tmp}/sudocheck-install"
 API_URL="https://api.github.com/repos/$REPO/releases/latest"
 
 os="$(uname -s | tr '[:upper:]' '[:lower:]')"
-arch="$(uname -m)"
+uname_arch="$(uname -m)"
+arch="$uname_arch"
 
 case "$os" in
   linux) ;;
@@ -33,7 +34,21 @@ archive_url="$(
   printf '%s\n' "$release_json" |
     grep '"browser_download_url":' |
     cut -d '"' -f 4 |
-    grep "${os}_${arch}.*\\.tar\\.gz$" |
+    awk -v os="$os" -v arch="$arch" -v uname_arch="$uname_arch" '
+      function matches_arch(value) {
+        return index(value, arch) > 0 ||
+          index(value, uname_arch) > 0 ||
+          (arch == "amd64" && index(value, "x86_64") > 0) ||
+          (arch == "arm64" && index(value, "aarch64") > 0)
+      }
+      {
+        value = tolower($0)
+        if (index(value, os) > 0 && matches_arch(value) && value ~ /\.tar\.gz$/) {
+          print $0
+          exit
+        }
+      }
+    ' |
     head -n 1
 )"
 checksum_url="$(
