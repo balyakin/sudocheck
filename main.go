@@ -3,7 +3,7 @@ package main
 import (
 	"os"
 
-	"github.com/evgenybalyakin/sudocheck/cmd"
+	"github.com/balyakin/sudocheck/cmd"
 )
 
 var version = "dev"

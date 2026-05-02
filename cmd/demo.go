@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/evgenybalyakin/sudocheck/internal/demo"
-	"github.com/evgenybalyakin/sudocheck/internal/matcher"
-	"github.com/evgenybalyakin/sudocheck/internal/reporter"
+	"github.com/balyakin/sudocheck/internal/demo"
+	"github.com/balyakin/sudocheck/internal/matcher"
+	"github.com/balyakin/sudocheck/internal/reporter"
 	"github.com/spf13/cobra"
 )
 

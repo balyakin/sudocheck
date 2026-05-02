@@ -3,7 +3,7 @@ package matcher
 import (
 	"testing"
 
-	"github.com/evgenybalyakin/sudocheck/internal/scanner"
+	"github.com/balyakin/sudocheck/internal/scanner"
 )
 
 func TestNormalizeBinaryCandidatesHandlesVersionSuffix(t *testing.T) {

@@ -10,7 +10,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/evgenybalyakin/sudocheck/data"
+	"github.com/balyakin/sudocheck/data"
 )
 
 type Database struct {

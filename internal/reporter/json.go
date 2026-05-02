@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"strings"
 
-	"github.com/evgenybalyakin/sudocheck/internal/model"
+	"github.com/balyakin/sudocheck/internal/model"
 )
 
 func RenderJSON(report model.Report, options Options) ([]byte, error) {

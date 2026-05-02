@@ -1,7 +1,7 @@
 #!/bin/sh
 set -eu
 
-REPO="evgenybalyakin/sudocheck"
+REPO="balyakin/sudocheck"
 INSTALL_DIR="${INSTALL_DIR:-/usr/local/bin}"
 TMP_DIR="${TMPDIR:-/tmp}/sudocheck-install"
 

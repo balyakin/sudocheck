@@ -4,10 +4,10 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/evgenybalyakin/sudocheck/internal/model"
+	"github.com/balyakin/sudocheck/internal/model"
 )
 
-const defaultHelpURI = "https://github.com/evgenybalyakin/sudocheck#readme"
+const defaultHelpURI = "https://github.com/balyakin/sudocheck#readme"
 
 type sarifLog struct {
 	Version string     `json:"version"`
@@ -116,7 +116,7 @@ func RenderSARIF(report model.Report, options Options) ([]byte, error) {
 				Tool: sarifTool{
 					Driver: sarifDriver{
 						Name:           "sudocheck",
-						InformationURI: "https://github.com/evgenybalyakin/sudocheck",
+						InformationURI: "https://github.com/balyakin/sudocheck",
 						Rules:          rules,
 					},
 				},

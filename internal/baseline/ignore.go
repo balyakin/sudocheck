@@ -6,7 +6,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/evgenybalyakin/sudocheck/internal/model"
+	"github.com/balyakin/sudocheck/internal/model"
 )
 
 type IgnoreRule struct {

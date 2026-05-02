@@ -1,6 +1,6 @@
 package reporter
 
-import "github.com/evgenybalyakin/sudocheck/internal/model"
+import "github.com/balyakin/sudocheck/internal/model"
 
 type Options struct {
 	NoColor       bool

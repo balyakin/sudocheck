@@ -1,4 +1,4 @@
-module github.com/evgenybalyakin/sudocheck
+module github.com/balyakin/sudocheck
 
 go 1.22
 

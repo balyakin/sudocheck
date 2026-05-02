@@ -5,7 +5,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/evgenybalyakin/sudocheck/internal/model"
+	"github.com/balyakin/sudocheck/internal/model"
 )
 
 const scanTimeout = 15 * time.Second

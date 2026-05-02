@@ -9,7 +9,7 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/evgenybalyakin/sudocheck/internal/matcher"
+	"github.com/balyakin/sudocheck/internal/matcher"
 	"github.com/spf13/cobra"
 )
 

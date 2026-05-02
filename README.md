@@ -10,13 +10,13 @@ It never runs exploit commands. It only explains what an attacker could do and w
 ## Install
 
 ```sh
-curl -sSL https://raw.githubusercontent.com/evgenybalyakin/sudocheck/main/install.sh | sh
+curl -sSL https://raw.githubusercontent.com/balyakin/sudocheck/main/install.sh | sh
 ```
 
 From source:
 
 ```sh
-go install github.com/evgenybalyakin/sudocheck@latest
+go install github.com/balyakin/sudocheck@latest
 ```
 
 ## Quick Start
@@ -49,7 +49,7 @@ sudocheck demo
 ```yaml
 - name: Privilege escalation audit
   run: |
-    curl -sSL https://raw.githubusercontent.com/evgenybalyakin/sudocheck/main/install.sh | sh
+    curl -sSL https://raw.githubusercontent.com/balyakin/sudocheck/main/install.sh | sh
     sudocheck scan --quiet --fail-on high
 ```
 

@@ -3,7 +3,7 @@ package cmd
 import (
 	"testing"
 
-	"github.com/evgenybalyakin/sudocheck/internal/model"
+	"github.com/balyakin/sudocheck/internal/model"
 )
 
 func TestExitForFindingsFailsOnMedium(t *testing.T) {

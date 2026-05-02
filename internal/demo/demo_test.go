@@ -3,7 +3,7 @@ package demo
 import (
 	"testing"
 
-	"github.com/evgenybalyakin/sudocheck/internal/matcher"
+	"github.com/balyakin/sudocheck/internal/matcher"
 )
 
 func TestBuildReportUsesDemoData(t *testing.T) {

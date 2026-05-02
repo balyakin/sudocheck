@@ -4,11 +4,11 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/balyakin/sudocheck/internal/model"
 	"github.com/charmbracelet/lipgloss"
-	"github.com/evgenybalyakin/sudocheck/internal/model"
 )
 
-const projectURL = "https://github.com/evgenybalyakin/sudocheck"
+const projectURL = "https://github.com/balyakin/sudocheck"
 
 var (
 	bannerStyle   = lipgloss.NewStyle().Bold(true).Foreground(lipgloss.Color("14"))

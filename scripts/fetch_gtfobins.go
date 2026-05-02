@@ -9,7 +9,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/evgenybalyakin/sudocheck/internal/matcher"
+	"github.com/balyakin/sudocheck/internal/matcher"
 	"gopkg.in/yaml.v3"
 )
 

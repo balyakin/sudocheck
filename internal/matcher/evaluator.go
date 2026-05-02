@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/evgenybalyakin/sudocheck/internal/model"
-	"github.com/evgenybalyakin/sudocheck/internal/scanner"
+	"github.com/balyakin/sudocheck/internal/model"
+	"github.com/balyakin/sudocheck/internal/scanner"
 )
 
 const unrestrictedSudoBinary = "ALL"

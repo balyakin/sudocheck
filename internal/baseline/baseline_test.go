@@ -3,7 +3,7 @@ package baseline
 import (
 	"testing"
 
-	"github.com/evgenybalyakin/sudocheck/internal/model"
+	"github.com/balyakin/sudocheck/internal/model"
 )
 
 func TestApplySuppressesKnownFinding(t *testing.T) {

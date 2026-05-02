@@ -3,8 +3,8 @@ package matcher
 import (
 	"testing"
 
-	"github.com/evgenybalyakin/sudocheck/internal/model"
-	"github.com/evgenybalyakin/sudocheck/internal/scanner"
+	"github.com/balyakin/sudocheck/internal/model"
+	"github.com/balyakin/sudocheck/internal/scanner"
 )
 
 func TestBuildFindingsMarksNoPasswdVimCritical(t *testing.T) {
