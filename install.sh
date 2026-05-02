@@ -5,6 +5,7 @@ REPO="balyakin/sudocheck"
 INSTALL_DIR="${INSTALL_DIR:-/usr/local/bin}"
 TMP_DIR="${TMPDIR:-/tmp}/sudocheck-install"
 API_URL="https://api.github.com/repos/$REPO/releases/latest"
+MODULE="github.com/$REPO"
 
 os="$(uname -s | tr '[:upper:]' '[:lower:]')"
 uname_arch="$(uname -m)"
@@ -28,7 +29,33 @@ case "$arch" in
     ;;
 esac
 
-release_json="$(curl -fsSL "$API_URL")"
+install_binary() {
+  source_path="$1"
+  if [ -w "$INSTALL_DIR" ]; then
+    mv "$source_path" "$INSTALL_DIR/sudocheck"
+  else
+    sudo mv "$source_path" "$INSTALL_DIR/sudocheck"
+  fi
+}
+
+install_from_source() {
+  if ! command -v go >/dev/null 2>&1; then
+    echo "no published release found and Go is not installed" >&2
+    echo "create a GitHub Release with binaries or install Go and run:" >&2
+    echo "  go install $MODULE@latest" >&2
+    exit 1
+  fi
+
+  echo "no published release found; installing from source with go install" >&2
+  GOBIN="$TMP_DIR/bin" go install "$MODULE@latest"
+  install_binary "$TMP_DIR/bin/sudocheck"
+  echo "sudocheck installed to $INSTALL_DIR/sudocheck"
+  exit 0
+}
+
+if ! release_json="$(curl -fsSL "$API_URL")"; then
+  install_from_source
+fi
 latest="$(printf '%s\n' "$release_json" | grep '"tag_name"' | cut -d '"' -f 4 | head -n 1)"
 archive_url="$(
   printf '%s\n' "$release_json" |
@@ -60,15 +87,14 @@ checksum_url="$(
 )"
 
 if [ -z "$latest" ]; then
-  echo "could not determine latest release tag for $REPO" >&2
-  exit 1
+  install_from_source
 fi
 
 if [ -z "$archive_url" ]; then
-  echo "could not find release archive for ${os}/${arch}" >&2
+  echo "could not find release archive for ${os}/${arch}; trying source install" >&2
   echo "available assets:" >&2
   printf '%s\n' "$release_json" | grep '"browser_download_url":' | cut -d '"' -f 4 >&2
-  exit 1
+  install_from_source
 fi
 
 if [ -z "$checksum_url" ]; then
@@ -100,10 +126,6 @@ fi
 printf '%s  %s\n' "$checksum" "$archive" | sha256sum -c -
 tar xzf "$archive"
 
-if [ -w "$INSTALL_DIR" ]; then
-  mv sudocheck "$INSTALL_DIR/sudocheck"
-else
-  sudo mv sudocheck "$INSTALL_DIR/sudocheck"
-fi
+install_binary sudocheck
 
 echo "sudocheck $latest installed to $INSTALL_DIR/sudocheck"
