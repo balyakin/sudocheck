@@ -25,10 +25,13 @@ go install github.com/balyakin/sudocheck@latest
 sudocheck
 sudocheck scan --json
 sudocheck scan --format sarif --report sudocheck.sarif
+sudocheck scan --severity info
 sudocheck scan --defensive
 sudocheck lookup tcpdump
 sudocheck demo
 ```
+
+Default scan output shows medium severity and higher. Use `--severity info` for the full inventory.
 
 ## Why sudocheck?
 

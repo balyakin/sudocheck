@@ -13,6 +13,11 @@ import (
 	"github.com/spf13/cobra"
 )
 
+const (
+	defaultDisplayedSeverity   = "medium"
+	defensiveDisplayedSeverity = "high"
+)
+
 type scanConfig struct {
 	format       string
 	reportPath   string
@@ -51,7 +56,7 @@ func addScanFlags(command *cobra.Command, config *scanConfig) {
 	flags.StringVar(&config.format, "format", "", "output format: terminal, json, sarif")
 	flags.StringVar(&config.format, "output", "", "output format: terminal, json, sarif")
 	flags.StringVar(&config.reportPath, "report", "", "write report to path")
-	flags.StringVar(&config.severity, "severity", "info", "minimum displayed severity")
+	flags.StringVar(&config.severity, "severity", defaultDisplayedSeverity, "minimum displayed severity")
 	flags.StringVar(&config.failOn, "fail-on", "high", "minimum severity that produces non-zero exit")
 	flags.BoolVarP(&config.quiet, "quiet", "q", false, "show summary only")
 	flags.BoolVar(&config.noColor, "no-color", false, "disable color")
@@ -167,7 +172,7 @@ func buildReportOptions(config scanConfig) (reporter.Options, model.Severity, er
 	hideExploits := config.hideExploits
 	if config.defensive {
 		hideExploits = true
-		severityValue = "high"
+		severityValue = defensiveDisplayedSeverity
 	}
 
 	severity, err := model.ParseSeverity(severityValue)

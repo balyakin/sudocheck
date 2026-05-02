@@ -8,7 +8,11 @@ import (
 	"github.com/balyakin/sudocheck/internal/scanner"
 )
 
-const unrestrictedSudoBinary = "ALL"
+const (
+	unrestrictedSudoBinary  = "ALL"
+	expectedSUIDRemediation = "Expected system SUID/SGID binary; verify package ownership " +
+		"and keep elevated bit only if required"
+)
 
 func BuildFindings(result scanner.Result, database Database) []model.Finding {
 	findings := make([]model.Finding, 0)
@@ -84,6 +88,7 @@ func buildSuidFinding(file scanner.SuidBinary, database Database) model.Finding 
 	exploits := exploitsFromMatch(match)
 	severity := model.SeverityMedium
 	gtfoURL := ""
+	expectedSystemBinary := false
 
 	if matched {
 		gtfoURL = match.URL + "#suid"
@@ -94,11 +99,16 @@ func buildSuidFinding(file scanner.SuidBinary, database Database) model.Finding 
 		}
 	} else if database.IsExpectedSUID(file.Path) {
 		severity = model.SeverityInfo
+		expectedSystemBinary = true
 	}
 
 	remediation := database.Remediation(file.BinaryName, scanner.SourceSUID)
 	if remediation == "" {
-		remediation = fmt.Sprintf("Remove elevated bit if not required: chmod u-s %s", file.Path)
+		if expectedSystemBinary {
+			remediation = expectedSUIDRemediation
+		} else {
+			remediation = fmt.Sprintf("Remove elevated bit if not required: chmod u-s %s", file.Path)
+		}
 	}
 	remediation = strings.ReplaceAll(remediation, "<path>", file.Path)
 

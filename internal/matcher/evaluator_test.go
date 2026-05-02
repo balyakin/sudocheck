@@ -36,3 +36,34 @@ func TestBuildFindingsMarksNoPasswdVimCritical(t *testing.T) {
 		t.Fatal("expected fingerprint")
 	}
 }
+
+func TestBuildFindingsUsesExpectedSUIDRemediation(t *testing.T) {
+	database := Database{
+		Defaults: Defaults{
+			ExpectedSUID: []string{"/usr/bin/umount"},
+		},
+	}
+	result := scanner.Result{
+		SuidFiles: []scanner.SuidBinary{
+			{
+				Path:       "/usr/bin/umount",
+				BinaryName: "umount",
+				Owner:      "root",
+				Type:       scanner.SourceSUID,
+				Perms:      "4755",
+			},
+		},
+	}
+
+	findings := BuildFindings(result, database)
+
+	if len(findings) != 1 {
+		t.Fatalf("expected one finding, got %d", len(findings))
+	}
+	if findings[0].Severity != model.SeverityInfo {
+		t.Fatalf("expected info severity, got %s", findings[0].Severity)
+	}
+	if findings[0].Remediation != expectedSUIDRemediation {
+		t.Fatalf("unexpected remediation: %s", findings[0].Remediation)
+	}
+}
