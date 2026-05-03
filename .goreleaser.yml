@@ -35,8 +35,8 @@ changelog:
 
 nfpms:
   - package_name: sudocheck
-    homepage: https://github.com/evgenybalyakin/sudocheck
-    maintainer: evgenybalyakin
+    homepage: https://github.com/balyakin/sudocheck
+    maintainer: balyakin
     description: Linux privilege escalation audit with GTFOBins mapping
     license: MIT
     formats:
